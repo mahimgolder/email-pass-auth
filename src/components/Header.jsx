@@ -1,7 +1,10 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 const links = <>
-    <li><a href="#">list</a></li>
-    <li><a href="#">list</a></li>
+    <li><NavLink to={'/'}>Home</NavLink></li>
+    <li><NavLink to={'/login'}>Login</NavLink></li>
+    <li><NavLink to={'/register'}>Register</NavLink></li>
+    <li><NavLink to={'/signup'}>SignUp</NavLink></li>
 
 </>
 

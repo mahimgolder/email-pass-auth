@@ -9,6 +9,7 @@ import { StrictMode } from 'react';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
+import SignUp from './components/SignUp';
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path:'/register',
         element:<Register></Register>
+      },
+      {
+        path:'/signup',
+        element:<SignUp></SignUp>
       }
 
     ]

@@ -1,8 +1,9 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import React, { useState } from 'react';
 import { auth } from '../firebase/firebase.init';
 // react icon 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const SignUp = () => {
   // error massage var
@@ -11,7 +12,7 @@ const SignUp = () => {
     // when user is successfully create account ,display show an error
     const [success, setSuccess] = useState(false);
     // Show pass btn
-    const [showPass, setShowPass] = useState(false);
+    const [eye, setEye] = useState(false);
 
     
     // form submit func
@@ -20,6 +21,7 @@ const SignUp = () => {
         const email = e.target.email.value;
         const pass = e.target.password.value;
         const checkBox = e.target.checkBox.checked;
+        // reset status
         setErrorMess('');
         setSuccess('');
         // pass validation section here
@@ -42,6 +44,12 @@ const SignUp = () => {
         .then(res => {
           console.log(res.user);
           setSuccess(true);
+
+          // sent verification email address
+          sendEmailVerification(auth.currentUser)
+          .then(() => {
+            console.log("Verification email sent");
+          })
         }).catch(error => {
             console.log(errorMess);
             setErrorMess(error.message);
@@ -51,7 +59,7 @@ const SignUp = () => {
 
     // handle show btn func here
     const handleShowPass = () => {
-      setShowPass(!showPass)
+      setEye(!eye)
     }
    
     return (
@@ -67,12 +75,12 @@ const SignUp = () => {
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input type={ showPass ? "text" : "password"} name='password' placeholder="password" className="input input-bordered" required />
+              <input type={ eye ? "text" : "password"} name='password' placeholder="password" className="input input-bordered" required />
               <button 
               onClick={handleShowPass}
-              className='absolute top-1/2 bottom-1/2 left-72'>
+              className='absolute inset-y-0 end-0 mr-4'>
                 {
-                  showPass ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>
+                  eye ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>
                 }
               </button>
               <label className="label">
@@ -98,6 +106,7 @@ const SignUp = () => {
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
             </div>
+            <p>Already create account? <Link to="/login" className='text-blue-700'>Login</Link></p>
           </form>
         </div>
     );
